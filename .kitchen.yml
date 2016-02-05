@@ -1,0 +1,45 @@
+---
+provisioner:
+  name: chef_zero_scheduled_task
+
+platforms:
+  - name: windows-2012r2-gui
+    driver:
+      name: vagrant
+      box: base-Windows2012r2-gui
+      box_url: https://imageserver.mycompany.com/images/base-Windows2012r2-gui.box
+      vm_hostname: vaglabgui1
+      provision: true
+      customize:
+        memory: 2048
+        cpus: 4
+      #vagrantfiles:
+        # - Vagrantfile-ad_join.rb #Changes to Vagrantfile will only be handled during initial build
+    transport:
+      name: winrm
+  - name: windows-2012r2-core
+    driver:
+      name: vagrant
+      box: base-Windows2012r2-core
+      box_url: https://imageserver.mycompany.com/images/base-Windows2012r2-core.box
+      vm_hostname: vaglabcor1
+      provision: true
+      customize:
+        memory: 2048
+        cpus: 4
+      #vagrantfiles:
+        # - Vagrantfile-ad_join.rb #Changes to Vagrantfile will only be handled during initial build
+    transport:
+      name: winrm
+
+suites:
+  - name: base
+    provisioner:
+        chef_metadata_url: http://www.chef.io/chef/metadata?p=windows&m=x86_64&pv=2008r2&v=12.6.0
+    run_list:
+    #   - recipe[windows_security_policy::security_policies]
+      - recipe[windows_security_policy::security_policies_dsc]
+    #   - recipe[windows_security_policy::user_rights_assignments]
+      - recipe[windows_security_policy::user_rights_assignments_dsc]
+    attributes:
+      dev_mode: true
