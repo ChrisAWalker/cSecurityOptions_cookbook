@@ -1,0 +1,13 @@
+AllCops:
+  Exclude:
+    - 'metadata.rb'
+    - '.kitchen/*'
+
+LineLength:
+  Max: 200
+
+NumericLiterals:
+  Enabled: false
+
+Metrics/AbcSize:
+  Max: 20
